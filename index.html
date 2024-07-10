@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Management App</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Task Management App</h1>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <input type="number" id="priorityInput" placeholder="Priority">
+    <button onclick="addTask()">Add Task</button>
+    <button onclick="completeTask()">Complete Task</button>
+    <button onclick="resetInputs()">Reset</button>
+    <button onclick="clearTasks()">Restart</button>
+    <h2>Tasks</h2>
+    <ul id="taskList" class="task-list"></ul>
+    <h2>Completed Tasks</h2>
+    <ul id="completedTasks" class="task-list"></ul>
+  </div>
+</body>
+</html>
