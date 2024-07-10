@@ -89,50 +89,67 @@ class Stack {
     constructor() {
       this.tasks = new PriorityQueue();
       this.completedTasks = new Stack();
+      this.taskCompletionInProgress = false;
       this.loadTasks();
     }
   
     addTask(description, priority) {
       const newTask = new Task(description, priority);
       this.tasks.enqueue(newTask, priority);
-      this.displayTasks();
+      this.displayTasks(newTask);
       this.saveTasks();
     }
   
     completeTask() {
-      const taskList = document.getElementById('taskList');
-      if (this.tasks.isEmpty()) {
-        alert('No tasks to complete');
-        return;
-      }
-      const task = this.tasks.dequeue();
-      if (task !== 'Priority queue is empty') {
-        const taskItem = taskList.querySelector('li'); // Select the first item in the list
-        if (taskItem) {
-          taskItem.classList.add('animate-line');
-          taskItem.addEventListener('animationend', () => {
-            task.completed = true;
-            this.completedTasks.push(task);
-            taskItem.classList.remove('animate-line');
-            this.displayTasks();
-            this.displayCompletedTasks();
-            this.saveTasks();
-          }, { once: true });
+        if (this.taskCompletionInProgress) return; // Prevent multiple clicks
+        this.taskCompletionInProgress = true; // Set the flag to true
+        const taskList = document.getElementById('taskList');
+        if (this.tasks.isEmpty()) {
+          alert('No tasks to complete');
+          this.taskCompletionInProgress = false; // Reset the flag if no tasks
+          return;
+        }
+        const task = this.tasks.dequeue();
+        if (task !== 'Priority queue is empty') {
+          const taskItem = taskList.querySelector('li'); // Select the first item in the list
+          if (taskItem) {
+            taskItem.classList.add('animate-line');
+            taskItem.addEventListener('animationend', () => {
+              taskItem.classList.remove('animate-line');
+              taskItem.classList.add('collapse');
+              taskItem.addEventListener('animationend', () => {
+                task.completed = true;
+                this.completedTasks.push(task);
+                taskItem.remove(); // Remove the task item from the task list
+                this.displayCompletedTasks(task);
+                this.saveTasks();
+                this.taskCompletionInProgress = false; // Reset the flag after the animation ends
+              }, { once: true });
+            }, { once: true });
+          }
         }
       }
-    }
   
-    displayTasks() {
+    displayTasks(newTask = null) {
       const taskList = document.getElementById('taskList');
       taskList.innerHTML = '';
       this.tasks.data.forEach(task => {
         const taskItem = document.createElement('li');
         taskItem.textContent = `${task.value.description} (Priority: ${task.value.priority})`;
         taskList.appendChild(taskItem);
+        // Add the expand animation class to the newly added task only
+        if (newTask && newTask.description === task.value.description && newTask.priority === task.value.priority) {
+            requestAnimationFrame(() => {
+              taskItem.classList.add('expand');
+              taskItem.addEventListener('animationend', () => {
+                taskItem.classList.remove('expand');
+              }, { once: true });
+            });
+          }
       });
     }
   
-    displayCompletedTasks() {
+    displayCompletedTasks(newTask = null) {
       const completedTasksList = document.getElementById('completedTasks');
       completedTasksList.innerHTML = '';
       this.completedTasks.data.slice().reverse().forEach(task => {
@@ -140,6 +157,12 @@ class Stack {
         taskItem.textContent = `${task.description} (Priority: ${task.priority})`;
         taskItem.classList.add('completed');
         completedTasksList.appendChild(taskItem);
+        // Add the expand animation class to the newly added task only
+        if (newTask && newTask.description === task.description && newTask.priority === task.priority) {
+          requestAnimationFrame(() => {
+            taskItem.classList.add('expand');
+          });
+        }
       });
     }
   
