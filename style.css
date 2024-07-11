@@ -77,6 +77,21 @@ body {
     filter: drop-shadow(0 0 30px black);
   }
 
+  .title-wrapper {
+    position: relative;
+  }
+
+  #subheader {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    margin: 0;
+    width: fit-content;
+    height: fit-content;
+    font-family: monospace;
+    font-size: large;
+  }
+
   .glowing-border {
     border: 2px solid red;
     animation: glow 1s infinite alternate;
@@ -84,10 +99,10 @@ body {
   
   @keyframes glow {
     from {
-      box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
+      box-shadow: inset 0 0 0.5px #ffffa3, inset 0 0 1px #ffffa3, inset 0 0 1.5px #ffffa3, inset 0 0 2px #ffffa3, inset 0 0 2.5px #ffffa3, inset 0 0 3px #ffffa3, inset 0 0 3.5px #ffffa3;
     }
     to {
-      box-shadow: 0 0 20px red, 0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red, 0 0 80px red;
+      box-shadow: inset 0 0 1.5px #ffffa3, inset 0 0 2px #ffffa3, inset 0 0 2.5px #ffffa3, inset 0 0 3px #ffffa3, inset 0 0 3.5px #ffffa3, inset 0 0 4px #ffffa3, inset 0 0 4.5px #ffffa3;
     }
   }
   
@@ -111,7 +126,7 @@ body {
     font-size: 20px;
     background-color: #444;
     background-color: #191429;
-    color: #a2f4f5;
+    color: #9de0ff;
     border: min(.03rem, 3px) solid;
     border-image-slice: .9433962264% .3007518797%;
     border-image-width: min(.1rem, 1px);
@@ -125,7 +140,7 @@ body {
   .completed {
     background-color: #888 !important;
     background-color: #1f1a2d !important;
-    color: #2e7d32 !important;
+    color: #902b2b !important;
   }
   
   .completed::before,
