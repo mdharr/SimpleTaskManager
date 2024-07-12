@@ -1,3 +1,4 @@
+// for completed tasks
 class Stack {
     constructor() {
         this.data = [];
@@ -30,6 +31,7 @@ class Stack {
     }
 }
 
+// handle tasks based on priority
 class PriorityQueue {
     constructor() {
         this.data = [];
